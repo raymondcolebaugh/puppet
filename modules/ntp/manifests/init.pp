@@ -1,14 +1,14 @@
 class ntp {
    case $operatingsystem {
       redhat, centos: {
-         $servicename = 'ntpd',
-         $config = 'ntp.conf.el',
+         $servicename = 'ntpd'
+         $config = 'ntp.conf.el'
       }
       debian, ubuntu: {
-         $servicename = 'ntp',
-         $config = 'ntp.conf.debian',
+         $servicename = 'ntp'
+         $config = 'ntp.conf.debian'
       }
-      default: { fail("Unrecognized operating system.") }
+      default: { fail('Unrecognized operating system.') }
    }
 
    if str2bool("$is_virtual") {

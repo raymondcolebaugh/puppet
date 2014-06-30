@@ -4,7 +4,7 @@ class mysql {
          $servicename = 'mysqld',
          $pkgname = 'mysql-server',
          $config = 'my.conf.el',
-         $os_config = "my.conf',
+         $os_config = 'my.conf',
       }
       debian, ubuntu: {
          $servicename = 'mysql',

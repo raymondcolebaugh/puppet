@@ -1,16 +1,16 @@
 class apache2 {
    case $operatingsystem {
       redhat, centos: {
-         $servicename = 'httpdd',
-         $config = 'httpd.conf.el',
-         $os_config = "conf/httpd.conf',
+         $servicename = 'httpdd'
+         $config = 'httpd.conf.el'
+         $os_config = 'conf/httpd.conf'
       }
       debian, ubuntu: {
-         $servicename = 'apache2',
-         $config = 'apache2.conf.debian',
-         $os_config = 'apache2.conf',
+         $servicename = 'apache2'
+         $config = 'apache2.conf.debian'
+         $os_config = 'apache2.conf'
       }
-      default: { fail("Unrecognized operating system.") }
+      default: { fail('Unrecognized operating system.') }
    }
 
    package {'apache2':
@@ -23,7 +23,7 @@ class apache2 {
       enable => true,
       hasrestart => true,
       require => Package['apache2'],
-      subscribe => File[$os_config]
+      subscribe => File['apache2.conf']
    }
    file {'apache2.conf':
       path => '/etc/${servicename}/${os_config}',
