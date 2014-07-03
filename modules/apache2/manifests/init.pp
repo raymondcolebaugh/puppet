@@ -26,9 +26,9 @@ class apache2 {
       subscribe => File['apache2.conf']
    }
    file {'apache2.conf':
-      path => '/etc/${servicename}/${os_config}',
+      path => "/etc/${servicename}/${os_config}",
       ensure => file,
       mode => 644,
-      source => 'puppet:///modules/apache2/${config}',
+      source => "puppet:///modules/apache2/${config}",
    }
 }

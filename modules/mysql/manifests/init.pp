@@ -3,14 +3,14 @@ class mysql {
       redhat, centos: {
          $servicename = 'mysqld'
          $pkgname = 'mysql-server'
-         $config = 'my.conf.el'
-         $os_config = 'my.conf'
+         $config = 'my.cnf.el'
+         $fs_name = 'my.cnf'
       }
       debian, ubuntu: {
          $servicename = 'mysql'
          $pkgname = 'mysql-server-5.5'
-         $config = 'my.conf.debian'
-         $os_config = 'mysql/my.conf'
+         $config = 'my.cnf.debian'
+         $fs_name = 'mysql/my.cnf'
       }
       default: { fail("Unrecognized operating system.") }
    }
@@ -19,7 +19,7 @@ class mysql {
       name => $pkgname,
       ensure => 'latest',
    }
-   service {$servicename
+   service {$servicename:
       name => $servicename,
       ensure => running,
       enable => true,
@@ -27,10 +27,10 @@ class mysql {
       require => Package['mysql'],
       subscribe => File['my.cnf']
    }
-   file {'my.conf':
-      path => '/etc/${os_config}',
+   file {'my.cnf':
+      path => "/etc/${fs_name}",
       ensure => file,
       mode => 644,
-      source => 'puppet:///modules/mysql/${config}',
+      source => "puppet:///modules/mysql/${config}",
    }
 }
