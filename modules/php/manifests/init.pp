@@ -6,7 +6,7 @@ class php {
       }
       debian, ubuntu: {
          $servicename = 'mysql'
-         $pkgs = ['php5', 'php5-cli', 'php5-gd', 'php5-mysql', 'php-mcrypt']
+         $pkgs = ['php5', 'php5-cli', 'php5-gd', 'php5-mysql', 'php5-mcrypt']
       }
       default: { fail('Unrecognized operating system.') }
    }
