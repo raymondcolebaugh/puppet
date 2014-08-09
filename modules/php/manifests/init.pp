@@ -11,15 +11,5 @@ class php {
       default: { fail('Unrecognized operating system.') }
    }
 
-   package {'php':
-      name => $pkgs,
-      ensure => 'latest',
-   }
-   service {$servicename:
-      name => $servicename,
-      ensure => running,
-      enable => true,
-      hasrestart => true,
-      require => Package['php'],
-   }
+   package { $pkgs: ensure => 'latest' }
 }
