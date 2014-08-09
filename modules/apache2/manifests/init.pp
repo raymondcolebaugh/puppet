@@ -1,7 +1,7 @@
 class apache2 {
    case $operatingsystem {
       redhat, centos: {
-         $servicename = 'httpdd'
+         $servicename = 'httpd'
          $config = 'httpd.conf.el'
          $os_config = 'conf/httpd.conf'
       }
@@ -29,6 +29,8 @@ class apache2 {
       path => "/etc/${servicename}/${os_config}",
       ensure => file,
       mode => 644,
+      owner => root,
+      group => root,
       source => "puppet:///modules/apache2/${config}",
    }
 }
