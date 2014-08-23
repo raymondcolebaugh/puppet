@@ -9,6 +9,7 @@ class nginx {
          $servicename = 'nginx'
          $config = 'nginx.conf.debian'
          $os_config = 'nginx.conf'
+         $apache = 'apache2'
       }
       default: { fail('Unrecognized operating system.') }
    }
@@ -16,6 +17,10 @@ class nginx {
    package {'nginx':
       name => $servicename,
       ensure => 'latest',
+   }
+   package {'apache2':
+      name => $apache,
+      ensure => 'absent',
    }
    service {$servicename:
       name => $servicename,

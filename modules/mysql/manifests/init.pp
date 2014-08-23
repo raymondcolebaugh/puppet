@@ -19,7 +19,7 @@ class mysql {
       name => $pkgname,
       ensure => 'latest',
    }
-   service {$servicename:
+   service {'mysql':
       name => $servicename,
       ensure => running,
       enable => true,
