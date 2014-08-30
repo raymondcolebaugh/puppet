@@ -37,7 +37,7 @@ class ntp {
       file {'ntp.conf':
          path => '/etc/ntp.conf',
          ensure => file,
-         mode => 644,
+         mode => '0644',
          source => 'puppet:///modules/ntp/${config}',
       }
    }

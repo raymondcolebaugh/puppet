@@ -33,7 +33,7 @@ class nginx {
    file {'nginx.conf':
       path => "/etc/${servicename}/${os_config}",
       ensure => file,
-      mode => 644,
+      mode => '0644',
       source => "puppet:///modules/nginx/${config}",
    }
 }

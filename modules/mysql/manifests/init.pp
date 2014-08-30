@@ -30,7 +30,7 @@ class mysql {
    file {'my.cnf':
       path => "/etc/${fs_name}",
       ensure => file,
-      mode => 644,
+      mode => '0644',
       source => "puppet:///modules/mysql/${config}",
    }
 }

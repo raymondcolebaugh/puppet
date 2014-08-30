@@ -28,7 +28,7 @@ class apache2 {
    file {'apache2.conf':
       path => "/etc/${servicename}/${os_config}",
       ensure => file,
-      mode => 644,
+      mode => '0644',
       owner => root,
       group => root,
       source => "puppet:///modules/apache2/${config}",
