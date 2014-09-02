@@ -1,5 +1,5 @@
 class apache2 {
-   case $operatingsystem {
+  case $::operatingsystem {
       redhat, centos: {
          $servicename = 'httpd'
          $config = 'httpd.conf.el'
@@ -16,8 +16,10 @@ class apache2 {
    package {'apache2':
       name => $servicename,
       ensure => 'latest',
+      before => File['apache2.conf']
    }
-   service {$servicename:
+
+   service {'apache2':
       name => $servicename,
       ensure => running,
       enable => true,
@@ -25,6 +27,7 @@ class apache2 {
       require => Package['apache2'],
       subscribe => File['apache2.conf']
    }
+
    file {'apache2.conf':
       path => "/etc/${servicename}/${os_config}",
       ensure => file,

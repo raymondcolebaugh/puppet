@@ -1,5 +1,7 @@
 class mysql {
-   case $operatingsystem {
+  $rootpw = 'root'
+
+  case $::operatingsystem {
       redhat, centos: {
          $servicename = 'mysqld'
          $pkgname = 'mysql-server'
@@ -18,19 +20,27 @@ class mysql {
    package {'mysql':
       name => $pkgname,
       ensure => 'latest',
+      before => File['my.cnf']
    }
+
    service {'mysql':
       name => $servicename,
       ensure => running,
       enable => true,
       hasrestart => true,
-      require => Package['mysql'],
       subscribe => File['my.cnf']
    }
+
    file {'my.cnf':
       path => "/etc/${fs_name}",
       ensure => file,
       mode => '0644',
       source => "puppet:///modules/mysql/${config}",
+   }
+
+   exec {'rootpw':
+     unless => "mysqladmin -u root -p${rootpw} status",
+     command => "mysqladmin -u root password ${rootpw}",
+     require => Service['mysql']
    }
 }

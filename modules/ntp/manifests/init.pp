@@ -1,5 +1,5 @@
 class ntp {
-   case $operatingsystem {
+  case $::operatingsystem {
       redhat, centos: {
          $servicename = 'ntpd'
          $config = 'ntp.conf.el'
@@ -11,7 +11,7 @@ class ntp {
       default: { fail('Unrecognized operating system.') }
    }
 
-   if str2bool("$is_virtual") {
+   if str2bool("$::is_virtual") {
       package {'ntp':
          name => 'ntp',
          ensure => absent,
@@ -25,8 +25,9 @@ class ntp {
       package {'ntp':
          name => 'ntp',
          ensure => 'latest',
+         before => File['ntp.conf']
       }
-      service {$servicename:
+      service {'ntp':
          name => $servicename,
          ensure => running,
          enable => true,

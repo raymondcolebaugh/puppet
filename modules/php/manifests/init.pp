@@ -1,5 +1,5 @@
 class php {
-   case $operatingsystem {
+  case $::operatingsystem {
       redhat, centos: {
          $servicename = 'mysqld'
          $pkgs = ['php', 'php-cli', 'php-gd', 'php-mysql', 'php-mcrypt']

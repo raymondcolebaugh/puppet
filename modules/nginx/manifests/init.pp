@@ -1,5 +1,5 @@
 class nginx {
-   case $operatingsystem {
+  case $::operatingsystem {
      #redhat, centos: {
         #$servicename = 'httpdd'
          #$config = 'httpd.conf.el'
@@ -17,12 +17,15 @@ class nginx {
    package {'nginx':
       name => $servicename,
       ensure => 'latest',
+      before => File['nginx.conf']
    }
+
    package {'apache2':
       name => $apache,
       ensure => 'absent',
    }
-   service {$servicename:
+
+   service {'nginx':
       name => $servicename,
       ensure => running,
       enable => true,
@@ -30,6 +33,7 @@ class nginx {
       require => Package['nginx'],
       subscribe => File['nginx.conf']
    }
+
    file {'nginx.conf':
       path => "/etc/${servicename}/${os_config}",
       ensure => file,

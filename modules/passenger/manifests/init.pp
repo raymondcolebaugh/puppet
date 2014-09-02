@@ -5,16 +5,18 @@ class passenger {
   $packages = ['libcurl4-openssl-dev', 'libssl-dev', 'zlib1g-dev', 'apache2-threaded-dev',
       'ruby-dev', 'libapr1-dev', 'libaprutil1-dev']
 
-  package {'depends':
+  package {'passenger-requirements':
     name => $packages,
     ensure => 'latest',
+    before => Package['passenger']
   }
 
   package {'passenger':
     name => 'passenger',
     provider => 'gem',
     ensure => '4.0.49',
-    require => Package['depends'],
+    require => Package['passenger-requirements'],
+    before => File['passenger.conf']
   }
 
   file {'passenger.conf':
@@ -25,6 +27,6 @@ class passenger {
 
   exec {'install-passenger':
     command => $install_cmd,
+    require => File['passenger.conf']
   }
-
 }
