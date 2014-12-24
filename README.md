@@ -5,6 +5,7 @@ services on development machines.
 *Note: these manifests are not yet tuned for security.*
 
 * __apache2__
+* __fail2ban__
 * __mysql__
 * __nginx__
 * __ntp__
