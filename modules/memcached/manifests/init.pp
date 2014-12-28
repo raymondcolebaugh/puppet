@@ -5,11 +5,9 @@ class memcached (
 ) {
   case $::operatingsystem {
       ubuntu: {
-         $config = 'memcached.ubuntu.conf'
          $user = 'memcache'
       }
       debian: {
-         $config = 'memcached.debian.conf'
          $user = 'nobody'
       }
       default: { fail('Unrecognized operating system.') }
