@@ -1,12 +1,13 @@
 class rvm {
   exec {'rvm-key':
     command => 'curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -',
+    unless  => 'sudo gpg -k "Michal Papis (RVM signing) <mpapis@gmail.com>"',
     before => Group['rvm']
   }
 
   exec {'rvm':
-    unless => 'which rvm && rvm info',
     command => 'curl -sSL https://get.rvm.io/ | sudo bash -s stable --ruby=mri-2.0.0',
+    unless => 'whereis rvm',
     before => Group['rvm']
   }
 
