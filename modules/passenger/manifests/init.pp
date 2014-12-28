@@ -18,13 +18,11 @@ class passenger {
   package {'passenger-requirements':
     name => $packages,
     ensure => 'latest',
-    before => Package['passenger']
+    before => Exec['passenger']
   }
 
-  package {'passenger':
-    name => 'passenger',
-    provider => 'gem',
-    ensure => '4.0.49',
+  exec {'passenger':
+    command => 'gem install passenger',
     require => Package['passenger-requirements'],
     before => File['passenger.conf']
   }
