@@ -13,6 +13,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __apache2__
 * __fail2ban__
 * __haveged__
+* __memcached__
 * __mysql__
 * __nginx__
 * __ntp__
