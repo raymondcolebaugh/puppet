@@ -17,6 +17,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __nginx__
 * __ntp__
 * __passenger__
+* __postgresql__
 * __php__
 * __rvm__
 * __squid__
