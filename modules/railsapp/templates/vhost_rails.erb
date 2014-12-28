@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    ServerName <%= @name -%>.local
+    ServerAdmin webmaster@<%= @name -%>.local
+
+    # !!! Be sure to point DocumentRoot to 'public'!
+    DocumentRoot /home/<%= @name -%>/<%= @name -%>/public    
+    <Directory /home/<%= @name -%>/<%= @name -%>/public>
+        # This relaxes Apache security settings.
+        AllowOverride all
+        # MultiViews must be turned off.
+        Options -MultiViews
+        # Uncomment this if you're on Apache >= 2.4:
+        #Require all granted
+    </Directory>
+
+    ErrorLog /home/<%= @name -%>/<%= @name -%>/log/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog /home/<%= @name -%>/<%= @name -%>/log/access.log combined
+</VirtualHost>
+
