@@ -21,5 +21,6 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __passenger__
 * __postgresql__
 * __php__
+* __php-apc__
 * __rvm__
 * __squid__
