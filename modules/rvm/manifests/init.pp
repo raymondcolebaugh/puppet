@@ -7,7 +7,7 @@ class rvm {
 
   exec {'rvm':
     command => 'curl -sSL https://get.rvm.io/ | sudo bash -s stable --ruby=mri-2.0.0',
-    unless => 'whereis rvm',
+    unless => 'locate rvm',
     before => Group['rvm']
   }
 
