@@ -2,6 +2,7 @@ define railsapp (
   $mysql_rootpw = $title,
   $password = $title,
   $database = $title,
+  $server_name = "${title}.local",
 ) {
   user {$title:
     ensure => present,
@@ -26,7 +27,7 @@ define railsapp (
 
   exec {"${title}db":
     unless => "mysql -u ${title} -p${password} ${database}",
-    command => "mysql -u root -p${rootpw} -e '
+    command => "mysql -u root -p${mysql_rootpw} -e '
       CREATE USER ${title}@localhost
         IDENTIFIED BY \"${password}\";
       CREATE DATABASE ${database} DEFAULT CHARACTER SET utf8;
