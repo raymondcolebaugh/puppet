@@ -22,7 +22,7 @@ class passenger {
   }
 
   exec {'passenger':
-    command => 'gem install passenger',
+    command => 'gem install passenger --version 4.0.56',
     require => Package['passenger-requirements'],
     before => File['passenger.conf']
   }

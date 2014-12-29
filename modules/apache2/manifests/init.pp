@@ -23,7 +23,6 @@ class apache2 {
       name => $servicename,
       ensure => running,
       enable => true,
-      hasrestart => true,
       require => Package['apache2'],
       subscribe => File['apache2.conf']
    }
@@ -35,5 +34,10 @@ class apache2 {
       owner => root,
       group => root,
       source => "puppet:///modules/apache2/${config}",
+   }
+
+   exec {'remove-default-vhost':
+      command => 'a2dissite default',
+      notify => Service['apache2']
    }
 }

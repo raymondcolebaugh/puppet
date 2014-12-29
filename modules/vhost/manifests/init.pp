@@ -1,7 +1,8 @@
 define vhost (
   $passwd = $title,
   $db = $title,
-  $mysql_rootpw = 'root'
+  $mysql_rootpw = 'root',
+  $server_name = "${title}.local"
 ) {
   user {$title:
     ensure => present,

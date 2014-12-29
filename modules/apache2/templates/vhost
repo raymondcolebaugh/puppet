@@ -1,24 +1,25 @@
 <VirtualHost *:80>
-    ServerAdmin <%= @name -%>@localhost
+    ServerName <%= @server_name -%>:80
+    ServerAdmin webmaster@<%= @server_name -%>
 
-    DocumentRoot /home/<%= @name -%>/<%= @name %>
+    DocumentRoot /home/<%= @name -%>/<%= @name %>/public_html
     <Directory />
         Options FollowSymLinks
         AllowOverride None
     </Directory>
-    <Directory /home/<%= @name %>/<%= @name -%>>
-        Options Indexes FollowSymLinks MultiViews
+    <Directory /home/<%= @name %>/<%= @name -%>/public_html>
+        Options FollowSymLinks
         AllowOverride None
         Order allow,deny
         allow from all
     </Directory>
 
-    ErrorLog /home/<%= @name -%>/<%= @name -%>/error.log
+    ErrorLog /home/<%= @name -%>/<%= @name -%>/log/error.log
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel warn
 
-    CustomLog /home/<%= @name -%>/<%= @name -%>/access.log combined
+    CustomLog /home/<%= @name -%>/<%= @name -%>/log/access.log combined
 </VirtualHost>
 
