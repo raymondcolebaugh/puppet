@@ -1,6 +1,6 @@
-class mysql {
+class mysql (
   $rootpw = 'root'
-
+) {
   case $::operatingsystem {
       redhat, centos: {
          $servicename = 'mysqld'
