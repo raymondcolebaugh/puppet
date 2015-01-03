@@ -15,6 +15,7 @@ define vhost (
   file {
     ["/home/${title}",
      "/home/${title}/${title}",
+     "/home/${title}/${title}/log",
      "/home/${title}/${title}/public_html"]:
       ensure => directory,
       owner => $title,
