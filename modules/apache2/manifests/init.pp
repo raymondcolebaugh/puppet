@@ -36,8 +36,11 @@ class apache2 {
       source => "puppet:///modules/apache2/${config}",
    }
 
-   exec {'remove-default-vhost':
-      command => 'a2dissite default',
-      notify => Service['apache2']
+   if ($::operatingsystem == 'ubuntu' or $::operatingsystem == 'debian') {
+      exec {'remove-default-vhost':
+         command => 'a2dissite default',
+         require => Package['apache2'],
+         notify  => Service['apache2']
+      }
    }
 }
