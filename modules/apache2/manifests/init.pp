@@ -38,6 +38,7 @@ class apache2 {
 
    exec {'remove-default-vhost':
       command => 'a2dissite default',
+      require => Package['apache2'],
       notify => Service['apache2']
    }
 }
