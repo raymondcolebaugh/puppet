@@ -29,7 +29,7 @@ class passenger {
   }
 
   exec {'create-passenger.conf':
-    command => "${install_cmd} --snippet >> ${config_path}/passenger.conf $",
+    command => "${install_cmd} --snippet >> ${config_path}/passenger.conf",
     creates => "${config_path}/passenger.conf",
   }
 

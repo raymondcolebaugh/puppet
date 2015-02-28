@@ -16,7 +16,8 @@ class rvm {
   }
 
   exec {'use-ruby-2.0.0-mri':
-    command => 'source /etc/profile.d/rvm.sh && rvm use 2.0.0-mri',
+    # Must be executed in subshell to load rvm as a function
+    command => 'su -c "source /etc/profile.d/rvm.sh && rvm use --default 2.0.0-mri"',
     require => Exec['rvm']
   }
 
