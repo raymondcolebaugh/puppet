@@ -15,6 +15,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __fail2ban__
 * __haproxy__
 * __haveged__
+* __influxdb__
 * __memcached__
 * __mysql__
 * __nginx__
