@@ -1,14 +1,15 @@
 class passenger {
-  $config_path = '/etc/apache2/conf.d'
-  $config_src = 'passenger.apache.conf'
-
+  $passenger_version = '4.0.56'
   $web_server = 'apache'
+
   case $web_server {
     'apache': {
       $install_cmd = 'passenger-install-apache2-module'
+      $config_path = '/etc/apache2/conf.d'
     }
     'nginx': {
       $install_cmd = 'passenger-install-nginx-module'
+      $config_path = '/etc/nginx/conf.d'
     }
     default: { fail('Unsupported web server') }
   }
@@ -22,19 +23,18 @@ class passenger {
   }
 
   exec {'passenger':
-    command => 'gem install passenger --version 4.0.56',
+    command => "gem install passenger --version ${passenger_version}",
     require => Package['passenger-requirements'],
-    before => File['passenger.conf']
+    before => Exec['create-passenger.conf']
   }
 
-  file {'passenger.conf':
-    path => "${config_path}/passenger.conf",
-    mode => '0640',
-    source => "puppet:///modules/passenger/${config_src}"
+  exec {'create-passenger.conf':
+    command => "${install_cmd} --snippet >> ${config_path}/passenger.conf",
+    creates => "${config_path}/passenger.conf",
   }
 
   exec {'install-passenger':
     command => $install_cmd,
-    require => File['passenger.conf']
+    require => Exec['create-passenger.conf']
   }
 }
