@@ -15,12 +15,14 @@ class virtualbox {
   }
 
   exec {'enable-repo':
-    command => "wget -q ${repokey_url} -O- | sudo ${addkey_cmd} -"
+    command => "wget -q ${repokey_url} -O- | sudo ${addkey_cmd} -",
+    unless  => 'apt-key list | grep VirtualBox',
   }
 
   if $::operatingsystem == debian or $::operatingsystem == ubuntu {
     exec {'apt-get update':
       before => Package['virtualbox'],
+      unless  => 'apt-key list | grep VirtualBox',
     }
   }
 
