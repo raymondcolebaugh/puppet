@@ -7,7 +7,11 @@ class apache2 {
       }
       debian, ubuntu: {
          $servicename = 'apache2'
-         $config = 'apache2.conf.debian'
+         if $::lsbdistcodename == 'wheezy' {
+           $config = 'apache2.conf.debian7'
+         } else {
+           $config = 'apache2.conf.debian8'
+         }
          $os_config = 'apache2.conf'
       }
       default: { fail('Unrecognized operating system.') }
@@ -38,7 +42,7 @@ class apache2 {
 
    if ($::operatingsystem == 'ubuntu' or $::operatingsystem == 'debian') {
       exec {'remove-default-vhost':
-         command => 'a2dissite default',
+         command => 'a2dissite *default',
          require => Package['apache2'],
          notify  => Service['apache2']
       }
