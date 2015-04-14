@@ -1,0 +1,13 @@
+---
+authentication:
+  client_key: <%= @client_key %>
+  api_key: <%= @api_key %>
+defaults:
+  ssh_key: ""
+  size: "<%= @size %>"
+  image: "<%= @image %>"
+  region: "<%= @region %>"
+ssh:
+  ssh_port: "22"
+  ssh_user: <%= @user %>
+  ssh_key_path: /home/<%= @user %>/.ssh/id_rsa
