@@ -43,6 +43,7 @@ class apache2 {
    if ($::operatingsystem == 'ubuntu' or $::operatingsystem == 'debian') {
       exec {'remove-default-vhost':
          command => 'a2dissite *default',
+         unless  => '[ ! -f /etc/apache2/sites-enabled/*default ]',
          require => Package['apache2'],
          notify  => Service['apache2']
       }
