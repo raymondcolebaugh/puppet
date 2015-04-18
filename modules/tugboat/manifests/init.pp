@@ -5,6 +5,8 @@ class tugboat (
   $size = 66,
   $image = 684203,
   $region = 1,
+  $private_networking = false,
+  $backups_enabled = false
 ) {
   package {'tugboat':
     ensure   => latest,
