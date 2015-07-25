@@ -14,6 +14,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 ## Modules ##
 * __apache2__
 * __composer__
+* [__ejabberd__](modules/ejabberd/README.md)
 * __fail2ban__
 * __haproxy__
 * __haveged__
