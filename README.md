@@ -30,7 +30,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __php__
 * __postgresql__
 * __railsapp__
-* __redshift__
+* [__redshift__](modules/redshift/README.md)
 * __rvm__
 * __squid__
 * __tugboat__
