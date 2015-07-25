@@ -12,7 +12,7 @@ parameters. Right now operating system support is in favor of
 Debian/Ubuntu. Documentation will be coming soon.
 
 ## Modules ##
-* __apache2__
+* [__apache2__](modules/apache2/README.md)
 * __composer__
 * [__ejabberd__](modules/ejabberd/README.md)
 * __fail2ban__
@@ -22,7 +22,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __memcached__
 * __mod_evasive__
 * __mod_security__
-* __mysql__
+* [__mysql__](modules/mysql/README.md)
 * __nginx__
 * __ntp__
 * __passenger__

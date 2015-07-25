@@ -1,46 +1,47 @@
+# Install the MySQL relational database
 class mysql (
-  $rootpw = 'root'
+  $root_pass = 'root'
 ) {
   case $::operatingsystem {
-      redhat, centos: {
-         $servicename = 'mysqld'
-         $pkgname = 'mysql-server'
-         $config = 'my.cnf.el'
-         $fs_name = 'my.cnf'
-      }
-      debian, ubuntu: {
-         $servicename = 'mysql'
-         $pkgname = 'mysql-server-5.5'
-         $config = 'my.cnf.debian'
-         $fs_name = 'mysql/my.cnf'
-      }
-      default: { fail("Unrecognized operating system.") }
-   }
+    redhat, centos: {
+      $servicename = 'mysqld'
+      $pkgname = 'mysql-server'
+      $config = 'my.cnf.el'
+      $fs_name = 'my.cnf'
+    }
+    debian, ubuntu: {
+      $servicename = 'mysql'
+      $pkgname = 'mysql-server-5.5'
+      $config = 'my.cnf.debian'
+      $fs_name = 'mysql/my.cnf'
+    }
+  default: { fail('Unrecognized operating system.') }
+  }
 
-   package {'mysql':
-      name => $pkgname,
-      ensure => 'latest',
-      before => File['my.cnf']
-   }
+  package {'mysql':
+    ensure => 'latest',
+    name   => $pkgname,
+    before => File['my.cnf']
+  }
 
-   service {'mysql':
-      name => $servicename,
-      ensure => running,
-      enable => true,
-      hasrestart => true,
-      subscribe => File['my.cnf']
-   }
+  service {'mysql':
+    ensure     => running,
+    name       => $servicename,
+    enable     => true,
+    hasrestart => true,
+    subscribe  => File['my.cnf']
+  }
 
-   file {'my.cnf':
-      path => "/etc/${fs_name}",
-      ensure => file,
-      mode => '0644',
-      source => "puppet:///modules/mysql/${config}",
-   }
+  file {'my.cnf':
+    ensure => file,
+    path   => "/etc/${fs_name}",
+    mode   => '0644',
+    source => "puppet:///modules/mysql/${config}",
+  }
 
-   exec {'rootpw':
-     unless => "mysqladmin -u root -p${rootpw} status",
-     command => "mysqladmin -u root password ${rootpw}",
-     require => Service['mysql']
-   }
+  exec {'root_pass':
+    unless  => "mysqladmin -u root -p${root_pass} status",
+    command => "mysqladmin -u root password ${root_pass}",
+    require => Service['mysql']
+  }
 }
