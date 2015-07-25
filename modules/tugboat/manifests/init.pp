@@ -1,3 +1,4 @@
+# Install Tugboat to manage DigitalOcean Droplets
 class tugboat (
   $client_key,
   $api_key,
@@ -14,9 +15,9 @@ class tugboat (
   }
 
   file {"/home/${user}/.tugboat":
-    ensure => present,
-    owner  => $user,
-    group  => $user,
+    ensure  => present,
+    owner   => $user,
+    group   => $user,
     content => template('tugboat/tugboat.erb'),
     require => Package['tugboat'],
   }

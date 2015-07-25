@@ -33,7 +33,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * [__redshift__](modules/redshift/README.md)
 * __rvm__
 * __squid__
-* __tugboat__
+* [__tugboat__](modules/tugboat/README.md)
 * __vagrant__
 * __vhost__
 * __virtualbox__
