@@ -14,4 +14,7 @@ include 'apache'
 
 # Define virtual hosts
 apache2::vhost {'example.com':}
+
+# Define a Ruby on Rails application
+apache2::railsapp {'example.com':}
 ```

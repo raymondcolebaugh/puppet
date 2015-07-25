@@ -29,11 +29,9 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __php-apc__
 * __php__
 * __postgresql__
-* __railsapp__
 * [__redshift__](modules/redshift/README.md)
 * __rvm__
 * __squid__
 * [__tugboat__](modules/tugboat/README.md)
 * __vagrant__
-* __vhost__
 * __virtualbox__
