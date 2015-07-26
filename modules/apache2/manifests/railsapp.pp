@@ -1,7 +1,5 @@
 # Create an Apache virtual host for a Ruby on Rails app
-define apache2::railsapp (
-  $name = $title
-) {
+define apache2::railsapp {
   user {$title:
     ensure     => present,
     groups     => ['www-data'],
@@ -28,7 +26,7 @@ define apache2::railsapp (
     mode    => '0644',
     owner   => root,
     group   => root,
-    content => template('railsapp/vhost_rails.erb'),
+    content => template('apache2/vhost_rails.erb'),
     require => User[$title]
   }
 
