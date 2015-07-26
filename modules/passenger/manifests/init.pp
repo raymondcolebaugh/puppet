@@ -1,6 +1,8 @@
-class passenger {
-  $passenger_version = '4.0.56'
+# Install Passenger Rails application server
+class passenger(
   $web_server = 'apache'
+) {
+  $passenger_version = '4.0.56'
 
   case $web_server {
     'apache': {
@@ -13,19 +15,18 @@ class passenger {
     }
     default: { fail('Unsupported web server') }
   }
-  $packages = ['libcurl4-openssl-dev', 'libssl-dev', 'zlib1g-dev', 'apache2-threaded-dev',
-      'ruby-dev', 'libapr1-dev', 'libaprutil1-dev']
+  $requirements = ['libcurl4-openssl-dev', 'libssl-dev', 'zlib1g-dev',
+    'apache2-threaded-dev', 'ruby-dev', 'libapr1-dev', 'libaprutil1-dev']
 
-  package {'passenger-requirements':
-    name => $packages,
-    ensure => 'latest',
+  package {$requirements:
+    ensure => latest,
     before => Exec['passenger']
   }
 
   exec {'passenger':
     command => "gem install passenger --version ${passenger_version}",
-    require => Package['passenger-requirements'],
-    before => Exec['create-passenger.conf']
+    require => Package[$requirements],
+    before  => Exec['create-passenger.conf']
   }
 
   exec {'create-passenger.conf':
