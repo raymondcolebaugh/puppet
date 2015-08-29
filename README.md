@@ -30,6 +30,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __php-apc__
 * __php__
 * __postgresql__
+* [__redis__](modules/redis/README.md)
 * [__redshift__](modules/redshift/README.md)
 * __rvm__
 * __squid__
