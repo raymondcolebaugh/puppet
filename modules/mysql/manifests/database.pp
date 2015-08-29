@@ -13,6 +13,6 @@ define mysql::database(
         CREATE DATABASE ${db};
         GRANT ALL ON ${db}.* TO ${title}@localhost;
         FLUSH PRIVILEGES;'",
-    require => User[$title]
+    require => [User[$title], Class['mysql']]
   }
 }
