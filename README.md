@@ -18,6 +18,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __fail2ban__
 * __haproxy__
 * __haveged__
+* [__hhvm](modules/hhvm/README.md)
 * __influxdb__
 * __memcached__
 * [__mysql__](modules/mysql/README.md)
