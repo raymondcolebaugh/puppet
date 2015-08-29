@@ -23,6 +23,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __memcached__
 * [__mysql__](modules/mysql/README.md)
 * __nginx__
+* __nodejs__
 * __ntp__
 * __passenger__
 * __php-apc__
