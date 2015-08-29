@@ -1,24 +1,35 @@
 # Create and Apache Virtual Host type
-define apache2::vhost {
+define apache2::vhost(
+  $home = '/home',
+  $enable_login = true,
+) {
+  case $::operatingsystem {
+    debian: {
+      $config = "/etc/apache2/sites-available/${title}"
+    }
+    ubuntu: {
+      $config = "/etc/apache2/sites-available/${title}.conf"
+    }
+    default: { fail('Unsupported operating system') }
+  }
+  if $enable_login {
+    $shell = '/bin/bash'
+  } else {
+    $shell = '/bin/false'
+  }
+
   user {$title:
     ensure     => present,
     groups     => ['www-data'],
-    home       => "/home/${title}",
+    home       => "${home}/${title}",
     managehome => true,
-    shell      => '/bin/bash',
-  }
-
-  file {"/home/${title}/${title}":
-      ensure  => directory,
-      owner   => $title,
-      group   => $title,
-      mode    => '0775',
-      require => User[$title]
+    shell      => $shell,
   }
 
   file {
-    ["/home/${title}/${title}/log",
-    "/home/${title}/${title}/public_html"]:
+    ["${home}/${title}/${title}",
+    "${home}/${title}/${title}/log",
+    "${home}/${title}/${title}/public_html"]:
       ensure  => directory,
       owner   => $title,
       group   => www-data,
@@ -26,17 +37,15 @@ define apache2::vhost {
       require => User[$title]
   }
   
-  file {"${title}.vhost":
+  file {$config:
     ensure  => file,
-    path    => "/etc/apache2/sites-available/${title}",
     mode    => '0644',
     owner   => root,
     group   => root,
     content =>  template('apache2/vhost')
   }
 
-  exec {"activate-${title}.vhost":
-    command => "a2ensite ${title}",
-    require => File["${title}.vhost"]
+  exec {"a2ensite ${title}":
+    require => File[$config]
   }
 }

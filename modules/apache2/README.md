@@ -17,4 +17,10 @@ apache2::vhost {'example.com':}
 
 # Define a Ruby on Rails application
 apache2::railsapp {'example.com':}
+
+# Enable mod_security
+include 'apache::mod_security'
+
+# Enable mod_evasive
+include 'apache::mod_evasive'
 ```

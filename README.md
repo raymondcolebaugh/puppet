@@ -20,8 +20,6 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __haveged__
 * __influxdb__
 * __memcached__
-* __mod_evasive__
-* __mod_security__
 * [__mysql__](modules/mysql/README.md)
 * __nginx__
 * __ntp__
