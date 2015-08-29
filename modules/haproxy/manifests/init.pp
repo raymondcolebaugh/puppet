@@ -1,3 +1,4 @@
+# Install HAProxy load balancer
 class haproxy {
   if $::operatingsystem == 'debian' {
     $use_ppa = false
@@ -19,17 +20,17 @@ class haproxy {
     $use_ppa = false
     $install_options = []
   } else {
-    fail('Unrecognized operating system.') 
+    fail('Unrecognized operating system.')
   }
 
   if $enable_backports {
     file {'/etc/apt/sources.list.d/backports.list':
-      ensure   => present,
-      owner    => 'root',
-      group    => 'root',
-      mode     => '0644',
-      content  => 'deb http://cdn.debian.net/debian wheezy-backports main',
-      before   => Package['haproxy']
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => 'deb http://cdn.debian.net/debian wheezy-backports main',
+      before  => Package['haproxy']
     }
   }
 

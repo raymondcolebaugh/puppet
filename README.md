@@ -19,7 +19,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * [__golang__](modules/golang/README.md)
 * __haproxy__
 * __haveged__
-* [__hhvm](modules/hhvm/README.md)
+* [__hhvm__](modules/hhvm/README.md)
 * __influxdb__
 * __memcached__
 * [__mysql__](modules/mysql/README.md)
