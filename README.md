@@ -16,6 +16,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __composer__
 * [__ejabberd__](modules/ejabberd/README.md)
 * __fail2ban__
+* [__golang__](modules/golang/README.md)
 * __haproxy__
 * __haveged__
 * [__hhvm](modules/hhvm/README.md)
