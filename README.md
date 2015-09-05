@@ -27,7 +27,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __nodejs__
 * __ntp__
 * __passenger__
-* __php-apc__
+* __phpapc__
 * __php__
 * __postgresql__
 * [__redis__](modules/redis/README.md)
