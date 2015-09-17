@@ -13,6 +13,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 
 ## Modules ##
 * [__apache2__](modules/apache2/README.md)
+* __awstats__
 * __composer__
 * [__ejabberd__](modules/ejabberd/README.md)
 * __fail2ban__

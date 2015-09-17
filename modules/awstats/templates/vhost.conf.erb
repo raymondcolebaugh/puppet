@@ -1,0 +1,6 @@
+Include "/etc/awstats/awstats.conf"
+SiteDomain="<%= @title %>"
+HostAliases="<%= @title %> www.<%= @title %>"
+DirData="/var/lib/awstats/<%= @title %>"
+LogFile="<%= @log_path %>"
+LogFormat=<%= @log_format || 1 %>
