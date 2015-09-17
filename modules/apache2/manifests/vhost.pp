@@ -2,6 +2,11 @@
 define apache2::vhost(
   $home = '/home',
   $enable_login = true,
+  $hostname = $title,
+  $log_level = 'warn',
+  $log_format = 'combined',
+  $allow_override = 'none',
+  $allow_from = 'all'
 ) {
   case $::operatingsystem {
     debian: {
@@ -46,6 +51,7 @@ define apache2::vhost(
   }
 
   exec {"a2ensite ${title}":
-    require => File[$config]
+    require => File[$config],
+    notify  => Service[$apache2::servicename],
   }
 }

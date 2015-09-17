@@ -1,25 +1,26 @@
 <VirtualHost *:80>
-    ServerName <%= @server_name -%>:80
-    ServerAdmin webmaster@<%= @server_name -%>
+    ServerName <%= @hostname %>
+    ServerAdmin webmaster@<%= @hostname %>
+    DocumentRoot <%= @home %>/<%= @name %>/<%= @name %>/public_html
 
-    DocumentRoot /home/<%= @name -%>/<%= @name %>/public_html
-    <Directory />
+    <Directory <%= @home %>/<%= @name %>/<%= @name %>/public_html>
         Options FollowSymLinks
-        AllowOverride None
-    </Directory>
-    <Directory /home/<%= @name %>/<%= @name -%>/public_html>
-        Options FollowSymLinks
-        AllowOverride None
+        AllowOverride <%= @allow_override || 'none' %>
         Order allow,deny
-        allow from all
+        allow from <%= @allow_from || 'all' %>
     </Directory>
-
-    ErrorLog /home/<%= @name -%>/<%= @name -%>/log/error.log
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
-    LogLevel warn
 
-    CustomLog /home/<%= @name -%>/<%= @name -%>/log/access.log combined
+    LogLevel <%= @log_level || 'warn' %>
+	<% if @log_format == 'combined' %>
+	LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combined
+	<% elsif @log_format == 'common' %>
+	LogFormat "%h %l %u %t \"%r\" %>s %b" common
+	<% end %>
+    CustomLog <%= @home %>/<%= @name %>/<%= @name %>/log/access.log <%= @log_format || 'combined' %>
+    ErrorLog <%= @home %>/<%= @name %>/<%= @name %>/log/error.log
 </VirtualHost>
 
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
