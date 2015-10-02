@@ -4,7 +4,6 @@ class ejabberd(
   $admin_pass,
   $admin_user = 'admin',
   $cert = '/etc/ejabberd/ejabberd.pem',
-  $users = []
 ) {
   package {'ejabberd':
     ensure => latest,
@@ -26,9 +25,8 @@ class ejabberd(
     require    => File['/etc/ejabberd/ejabberd.cfg'],
   }
 
-  ejabberd::user {$admin_user:
-    password => $admin_pass,
-    domain   => $domain,
-    require  => Service['ejabberd']
+  exec {"ejabberdctl register ${admin_user} localhost ${admin_pass}":
+    require  => Service['ejabberd'],
+    unless   => "ejabberdctl  --auth ${admin_user} localhost ${admin_pass} registered_users localhost | grep ${admin_user}",
   }
 }

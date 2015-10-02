@@ -20,19 +20,25 @@ class apache2::mod_security {
   exec {'download-crs':
     command => 'wget -O crs.tar.gz https://github.com/SpiderLabs/owasp-modsecurity-crs/tarball/master',
     require => Package['modsecurity'],
-    cwd     => '/tmp'
+    cwd     => '/tmp',
+    unless  => "[ -d ${dest} ]",
   }
 
   exec {'extract-crs':
-    command => 'tar xf crs.tar.gz',
-    require => Exec['download-crs'],
-    cwd     => '/tmp'
+    command     => 'tar xf crs.tar.gz',
+    require     => Exec['download-crs'],
+    refreshonly => true,
+    cwd         => '/tmp'
   }
 
   exec {'copy-crs':
-    command => "rm -r ${dest} crs.tar.gz && \
-                mv SpiderLabs-owasp-modsecurity-crs-*/ ${dest}",
-    require => Exec['extract-crs'],
-    cwd     => '/tmp'
+    command     => "mv SpiderLabs-owasp-modsecurity-crs-*/ ${dest}",
+    require     => Exec['extract-crs'],
+    refreshonly => true,
+    cwd         => '/tmp'
   }
+
+  Exec['download-crs']
+    ~> Exec['extract-crs']
+    ~> Exec['copy-crs']
 }

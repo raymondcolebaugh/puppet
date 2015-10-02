@@ -55,7 +55,7 @@
 %% Options which are set by Debconf and managed by ucf
 
 %% Admin user
-{acl, admin, {user, "<%= @admin_user || 'admin' %>", "<%= @domain || 'localhost' %>"}}.
+{acl, admin, {user, "<%= @admin_user || 'admin' %>", "localhost"}}.
 
 %% Hostname
 {hosts, ["locahost", "<%= @domain || @fqdn %>"]}.

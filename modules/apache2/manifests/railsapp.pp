@@ -1,11 +1,12 @@
 # Create an Apache virtual host for a Ruby on Rails app
 define apache2::railsapp(
   $home = '/home',
+  $user = $title,
   $enable_login = true,
 ) {
   case $::operatingsystem {
     debian: {
-      $config = "/etc/apache2/sites-available/${title}"
+      $config = "/etc/apache2/sites-available/${title}.conf"
     }
     ubuntu: {
       $config = "/etc/apache2/sites-available/${title}.conf"
@@ -18,25 +19,26 @@ define apache2::railsapp(
     $shell = '/bin/false'
   }
 
-  user {$title:
+  user {$user:
     ensure     => present,
     groups     => ['www-data'],
-    home       => "${home}/${title}",
+    home       => "${home}/${user}",
     managehome => true,
     shell      => $shell,
   }
 
   file {
-    ["${home}/${title}/${title}",
-    "${home}/${title}/${title}/log",
-    "${home}/${title}/${title}/shared",
-    "${home}/${title}/${title}/public",
-    "${home}/${title}/${title}/shared/config"]:
+    ["${home}/${user}/${title}",
+    "${home}/${user}/${title}/log",
+    "${home}/${user}/${title}/shared",
+    "${home}/${user}/${title}/public",
+    "${home}/${user}/${title}/shared/config"]:
       ensure  => directory,
-      owner   => $title,
+      owner   => $user,
       group   => www-data,
       mode    => '0775',
-      require => User[$title]
+      require => Class['apache2'],
+      before  => Exec["a2ensite ${title}"],
   }
 
   file {$config:
@@ -45,10 +47,11 @@ define apache2::railsapp(
     owner   => root,
     group   => root,
     content => template('apache2/vhost_rails.erb'),
-    require => User[$title]
+    require => Class['apache2'],
   }
 
   exec {"a2ensite ${title}":
     require => File[$config],
+    unless  => "[ -f `echo ${config} | sed 's/available/enabled/'` ]",
   }
 }

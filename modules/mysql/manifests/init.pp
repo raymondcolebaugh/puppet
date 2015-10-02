@@ -40,8 +40,8 @@ class mysql (
   }
 
   exec {'root_pass':
-    unless  => "mysqladmin -u root -p${root_pass} status",
-    command => "mysqladmin -u root password ${root_pass}",
+    unless  => "mysql -u root -p'${root_pass}' -e 'SHOW DATABASES'",
+    command => "mysqladmin -u root password '${root_pass}'",
     require => Service['mysql']
   }
 }

@@ -14,7 +14,7 @@ define awstats::vhost(
   cron {"awstats.${title}":
     user    => 'www-data',
     minute  => "*/${interval}",
-    command => "/usr/lib/cgi-bin/awstats.pl -config=${title} -update >> /tmp/awstats",
+    command => "/usr/lib/cgi-bin/awstats.pl -config=${title} -update",
     require => File["/etc/awstats/awstats.${title}.conf"]
   }
 

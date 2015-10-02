@@ -1,6 +1,7 @@
 # Create and Apache Virtual Host type
 define apache2::vhost(
   $home = '/home',
+  $user = $title,
   $enable_login = true,
   $hostname = $title,
   $log_level = 'warn',
@@ -8,38 +9,31 @@ define apache2::vhost(
   $allow_override = 'none',
   $allow_from = 'all'
 ) {
-  case $::operatingsystem {
-    debian: {
-      $config = "/etc/apache2/sites-available/${title}"
-    }
-    ubuntu: {
-      $config = "/etc/apache2/sites-available/${title}.conf"
-    }
-    default: { fail('Unsupported operating system') }
-  }
+  $config = "/etc/apache2/sites-available/${title}.conf"
   if $enable_login {
     $shell = '/bin/bash'
   } else {
     $shell = '/bin/false'
   }
 
-  user {$title:
+  user {$user:
     ensure     => present,
     groups     => ['www-data'],
-    home       => "${home}/${title}",
+    home       => "${home}/${user}",
     managehome => true,
     shell      => $shell,
   }
 
   file {
-    ["${home}/${title}/${title}",
-    "${home}/${title}/${title}/log",
-    "${home}/${title}/${title}/public_html"]:
+    ["${home}/${user}/${title}",
+    "${home}/${user}/${title}/log",
+    "${home}/${user}/${title}/public_html"]:
       ensure  => directory,
-      owner   => $title,
+      owner   => $user,
       group   => www-data,
       mode    => '0775',
-      require => User[$title]
+      require => User[$user],
+      before  => Exec["a2ensite ${title}"],
   }
   
   file {$config:
@@ -47,11 +41,13 @@ define apache2::vhost(
     mode    => '0644',
     owner   => root,
     group   => root,
-    content =>  template('apache2/vhost')
+    content =>  template('apache2/vhost.erb'),
+    require => Class['apache2'],
+    before  => Exec["a2ensite ${title}"],
   }
 
   exec {"a2ensite ${title}":
     require => File[$config],
-    notify  => Service[$apache2::servicename],
+    unless  => "[ -f `echo ${config} | sed 's/available/enabled/'` ]",
   }
 }

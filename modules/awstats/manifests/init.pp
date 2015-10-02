@@ -35,7 +35,7 @@ class awstats {
     unless => '[ -f /etc/apache2/conf-enabled/awstats.conf ]',
   }
 
-  exec {'a2enconf cgi':
-    unless => '[ -f /etc/apache2/conf-enabled/cgi.conf ]',
+  exec {'a2enmod cgi':
+    unless => '[ -f /etc/apache2/mods-enabled/cgi.load ]',
   }
 }
