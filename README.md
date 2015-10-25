@@ -35,6 +35,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * [__redshift__](modules/redshift/README.md)
 * __rvm__
 * __squid__
+* [__swapfile__](modules/swapfile/README.md)
 * [__tugboat__](modules/tugboat/README.md)
 * __vagrant__
 * __virtualbox__
