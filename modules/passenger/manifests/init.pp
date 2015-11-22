@@ -33,7 +33,7 @@ class passenger(
   exec {'install-passenger':
     command => $install_cmd,
     before  => Exec['create-passenger.conf'],
-    unless  => "[ -f `grep LoadModule ${config_path}/passenger.conf | cut -d' ' -f3` ]",
+    unless  => "[ -f ${config_path}/passenger.conf] && [ -f `grep LoadModule ${config_path}/passenger.conf | cut -d' ' -f3` ]",
   }
 
   exec {'create-passenger.conf':
