@@ -1,11 +1,10 @@
 # Install Node.js
 class nodejs {
-  $setup_url = 'https://deb.nodesource.com/setup_0.12'
+  $setup_url = 'https://deb.nodesource.com/setup_4.x'
 
   exec {'install-nodejs-repo':
     command => "curl -sL ${setup_url} | sudo bash -",
     creates => '/etc/apt/sources.list.d/nodesource.list',
-    require => Package['curl'],
   }
 
   exec {'node-aptrefresh':
