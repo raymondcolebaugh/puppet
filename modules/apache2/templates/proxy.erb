@@ -1,0 +1,38 @@
+<VirtualHost *:*>
+    ServerName <%= @domain %>
+
+    ProxyPreserveHost On
+    ProxyRequests Off
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <% if @websockets %>
+    # Transport websockets
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI}  ^/<%= @uri %>        [NC,OR]
+    RewriteCond %{HTTP:UPGRADE} ^WebSocket$          [NC,OR]
+    RewriteCond %{HTTP:UPGRADE} =websocket           [NC,OR]
+    RewriteCond %{QUERY_STRING} transport=websocket  [NC]
+    RewriteRule /(.*) ws://<%= @pass %>/$1 [P,L]
+
+    <Location /<%= @uri %>>
+        ProxyPass ws://<%= @pass %>/
+        ProxyPassReverse ws://127.0.0.1:8065/<%= @uri %>
+    </Location>
+    <% if @https %>
+    RequestHeader set X-Forwarded-Proto "https"
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    <% end %>
+    <% end %>
+
+    <Location />
+        ProxyPass http<%= @https ? 's' : '' %>://<%= @pass %>/
+        ProxyPassReverse http<%= @https ? 's' : '' %>://<%= @pass %>/
+        Order allow,deny
+        Allow from all
+    </Location>
+
+    ProxyPassReverseCookieDomain 127.0.0.1 <%= @domain %>
+</VirtualHost>
