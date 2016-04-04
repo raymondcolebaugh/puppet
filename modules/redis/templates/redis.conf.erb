@@ -42,7 +42,7 @@ pidfile /var/run/redis/redis-server.pid
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
-port 6379
+port <%= @port || 6379 %>
 
 # By default Redis listens for connections from all the network interfaces
 # available on the server. It is possible to listen to just one or multiple
@@ -60,6 +60,10 @@ bind <%= @bind || '127.0.0.1' %>
 #
 # unixsocket /var/run/redis/redis.sock
 # unixsocketperm 755
+<% if @use_sockets %>
+unixsocket /var/run/redis/redis.sock
+unixsocketperm 750
+<% end %>
 
 # Close the connection after a client is idle for N seconds (0 to disable)
 timeout 0

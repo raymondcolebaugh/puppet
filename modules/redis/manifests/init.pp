@@ -2,6 +2,7 @@
 class redis(
   $appendonly = 'no',
   $bind = '127.0.0.1',
+  $port = 6379,
   $maxclients = 10000,
   $keepalive = 0,
   $log_level = 'notice',
@@ -9,6 +10,7 @@ class redis(
   $master_address = false,
   $masterauth = false,
   $maxmemory_policy = 'volatile-lru',
+  $use_sockets = false,
 ) {
   package {'redis-server':
     ensure => latest,
