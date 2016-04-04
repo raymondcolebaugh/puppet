@@ -55,13 +55,13 @@
 %% Options which are set by Debconf and managed by ucf
 
 %% Admin user
-{acl, admin, {user, "<%= @admin_user || 'admin' %>", "localhost"}}.
+{acl, admin, {user, "<%= @admin_user || 'admin' %>", "<%= @domain || "localhost" %>"}}.
 
 %% Hostname
-{hosts, ["locahost", "<%= @domain || @fqdn %>"]}.
+{hosts, ["localhost", "<%= @domain %>"]}.
 
 %% FQDN
-{fqdn, ["<%= @fqdn || 'localhost' %>"]}.
+{fqdn, ["<%= @domain || 'localhost' %>"]}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
