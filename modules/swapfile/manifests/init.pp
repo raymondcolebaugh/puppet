@@ -23,6 +23,6 @@ class swapfile(
 
   exec {"mkswap ${filename} && swapon ${filename}":
     require => Exec['swapfile-fstab'],
-    unless  => "swapon --show | grep ${filename}",
+    unless  => "swapon -s | grep ${filename}",
   }
 }
