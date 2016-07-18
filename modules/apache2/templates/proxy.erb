@@ -3,36 +3,28 @@
 
     ProxyPreserveHost On
     ProxyRequests Off
-    <Proxy *>
-        Order deny,allow
-        Allow from all
-    </Proxy>
+
+     ProxyPass / http://<%= @pass %>/
+     ProxyPassReverse / http://<%= @pass %>/
 
     <% if @websockets %>
-    # Transport websockets
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI}  ^/<%= @uri %>        [NC,OR]
-    RewriteCond %{HTTP:UPGRADE} ^WebSocket$          [NC,OR]
-    RewriteCond %{HTTP:UPGRADE} =websocket           [NC,OR]
-    RewriteCond %{QUERY_STRING} transport=websocket  [NC]
-    RewriteRule /(.*) ws://<%= @pass %>/$1 [P,L]
+    RewriteEngine on
+    RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+    RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]
+    RewriteRule .* ws://<%= @pass %>%{REQUEST_URI} [P]
 
     <Location /<%= @uri %>>
+        Require all granted
         ProxyPass ws://<%= @pass %>/
-        ProxyPassReverse ws://127.0.0.1:8065/<%= @uri %>
+        ProxyPassReverse ws://<%= @pass %>/<%= @uri %>
     </Location>
-    <% if @https %>
-    RequestHeader set X-Forwarded-Proto "https"
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-    <% end %>
     <% end %>
 
-    <Location />
-        ProxyPass http<%= @https ? 's' : '' %>://<%= @pass %>/
-        ProxyPassReverse http<%= @https ? 's' : '' %>://<%= @pass %>/
-        Order allow,deny
-        Allow from all
-    </Location>
+    ErrorLog /var/log/apache2/<%= @domain -%>_error.log
 
-    ProxyPassReverseCookieDomain 127.0.0.1 <%= @domain %>
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog /var/log/apache2/<%= @domain -%>_access.log combined
 </VirtualHost>
