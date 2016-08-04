@@ -4,7 +4,7 @@ class mattermost(
   $db_pass = 'mattermost',
   $db_host = 'localhost',
 ) {
-  $version = '2.1.0'
+  $version = '3.2.0'
   $source_url = "https://releases.mattermost.com/${version}/mattermost-team-${version}-linux-amd64.tar.gz"
 
   exec {'download-mattermost':
@@ -30,12 +30,12 @@ class mattermost(
     before     => Service['mattermost'],
   }
 
-  file {'/etc/init.d/mattermost':
+  file {'/etc/systemd/system/mattermost.service':
     ensure => present,
-    source => 'puppet:///modules/mattermost/mattermost.sh',
+    source => 'puppet:///modules/mattermost/systemd.conf',
     owner  => 'root',
     group  => 'root',
-    mode   => '0750',
+    mode   => '0755',
     before => Service['mattermost'],
   }
 
@@ -45,7 +45,6 @@ class mattermost(
     owner   => 'mattermost',
     group   => 'mattermost',
     mode    => '0660',
-    before  => Exec['chown -R mattermost:mattermost /opt/mattermost'],
     notify  => Service['mattermost'],
   }
 
@@ -54,11 +53,12 @@ class mattermost(
     owner  => 'mattermost',
     group  => 'mattermost',
     mode   => '0660',
-    before => Exec['chown -R mattermost:mattermost /opt/mattermost'],
     notify => Service['mattermost'],
   }
 
   exec {'chown -R mattermost:mattermost /opt/mattermost':
+    before  => Service['mattermost'],
+    require => [User['mattermost'], Exec['download-mattermost']],
   }
 
   service {'mattermost':
