@@ -11,17 +11,23 @@ class mysql (
     }
     debian, ubuntu: {
       $servicename = 'mysql'
-      $pkgname = 'mysql-server-5.5'
       $config = 'my.cnf.debian'
       $fs_name = 'mysql/my.cnf'
+      $pkgname = 'mysql-community-server'
+
+      exec { 'wget https://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb && dpkg -i mysql-apt-config_0.7.3-1_all.deb && apt update':
+        before  => Package['mysql'],
+        creates => '/etc/apt/sources.list.d/mysql.list',
+      }
+
     }
-  default: { fail('Unrecognized operating system.') }
+    default: { fail('Unrecognized operating system.') }
   }
 
   package {'mysql':
     ensure => 'latest',
     name   => $pkgname,
-    before => File['my.cnf']
+    before => Service['mysql']
   }
 
   service {'mysql':
@@ -29,14 +35,6 @@ class mysql (
     name       => $servicename,
     enable     => true,
     hasrestart => true,
-    subscribe  => File['my.cnf']
-  }
-
-  file {'my.cnf':
-    ensure => file,
-    path   => "/etc/${fs_name}",
-    mode   => '0644',
-    source => "puppet:///modules/mysql/${config}",
   }
 
   exec {'root_pass':

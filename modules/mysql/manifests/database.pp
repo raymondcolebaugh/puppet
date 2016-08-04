@@ -4,10 +4,11 @@ define mysql::database(
   $db = $title,
   $user = $title,
   $pass = $title,
+  $host = 'localhost',
 ) {
   exec {"${title}-db":
-    unless  => "mysql -u ${title} -p'${pass}' ${db}",
-    command => "mysql -u root -p'${mysql_root}' -e '
+    unless  => "mysql -u ${title} -p'${pass}' -h ${host} ${db}",
+    command => "mysql -u root -p'${mysql_root}' -h ${host} -e '
         CREATE USER ${title}@localhost
           IDENTIFIED BY \"${pass}\";
         CREATE DATABASE ${db};
