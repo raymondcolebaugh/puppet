@@ -14,7 +14,7 @@ define apache2::proxy (
     ensure  => present,
     content => template ('apache2/proxy.erb'),
     notify  => Service[$apache2::servicename],
-    require => Package['apache2'],
+    require => Class['apache2::mod_proxy'],
   }
 
   exec {"a2ensite ${domain}.conf":
