@@ -58,7 +58,7 @@
 {acl, admin, {user, "<%= @admin_user || 'admin' %>", "<%= @domain || "localhost" %>"}}.
 
 %% Hostname
-{hosts, ["localhost", "<%= @domain %>"]}.
+{hosts, ["<%= @domain %>"]}.
 
 %% FQDN
 {fqdn, ["<%= @domain || 'localhost' %>"]}.

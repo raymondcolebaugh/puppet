@@ -16,6 +16,7 @@ class ejabberd(
     mode    => '0640',
     content => template ('ejabberd/ejabberd.cfg.erb'),
     require => Package['ejabberd'],
+    notify  => Service['ejabberd'],
   }
 
   service {'ejabberd':
@@ -25,8 +26,8 @@ class ejabberd(
     require    => File['/etc/ejabberd/ejabberd.cfg'],
   }
 
-  exec {"ejabberdctl register ${admin_user} ${domain} ${admin_pass}":
-    require  => Service['ejabberd'],
-    unless   => "ejabberdctl  --auth ${admin_user} localhost ${admin_pass} registered_users localhost | grep ${admin_user}",
+  ejabberd::user {$admin_user:
+    domain   => 'localhost',
+    password => $admin_pass,
   }
 }

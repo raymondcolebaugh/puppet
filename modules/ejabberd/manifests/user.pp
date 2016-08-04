@@ -6,7 +6,7 @@ define ejabberd::user (
 ) {
   exec {"ejabberdctl register ${username} \
           ${domain} ${password}":
-    require => Service['ejabberd']
-    unless   => "ejabberdctl  --auth ${username} ${domain} ${password}",
+    require => Service['ejabberd'],
+    unless  => "ejabberdctl registered_users ${domain} | grep ${username}",
   }
 }
