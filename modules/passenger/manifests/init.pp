@@ -1,12 +1,12 @@
 # Install Passenger Rails application server
 class passenger(
   $web_server = 'apache',
-  $passenger_version = '5.0.18'
+  $passenger_version = '5.0.18',
+  $use_rvm = true,
 ) {
   case $web_server {
     'apache': {
       $install_cmd = 'passenger-install-apache2-module'
-      #$config_path = '/etc/apache2/conf.d'
       $config_path = '/etc/apache2/conf-available'
     }
     'nginx': {
@@ -23,21 +23,27 @@ class passenger(
     before => Exec['passenger']
   }
 
+  if $use_rvm {
+    $rvm = 'source /etc/profile.d/rvm.sh &&'
+  } else {
+    $rvm = ''
+  }
   exec {'passenger':
-    command => "gem install passenger --version ${passenger_version}",
+    # Must be executed in subshell to load rvm as a function
+    command => "su -c '${rvm} gem install passenger --version ${passenger_version}'",
     require => Package[$requirements],
     before  => Exec['install-passenger'],
-    unless  => 'which passenger',
+    unless  => "su -c '${rvm} gem list passenger | grep passenger'",
   }
 
   exec {'install-passenger':
-    command => $install_cmd,
+    command => "su -c '${rvm} ${install_cmd}'",
     before  => Exec['create-passenger.conf'],
-    unless  => "[ -f ${config_path}/passenger.conf] && [ -f `grep LoadModule ${config_path}/passenger.conf | cut -d' ' -f3` ]",
+    unless  => "[ -f ${config_path}/passenger.conf ]",
   }
 
   exec {'create-passenger.conf':
-    command => "${install_cmd} --snippet > ${config_path}/passenger.conf",
+    command => "su -c '${rvm} ${install_cmd} --snippet > ${config_path}/passenger.conf'",
     creates => "${config_path}/passenger.conf",
   }
 

@@ -1,5 +1,6 @@
-class rvm {
-  $ruby_version = '2.0.0-mri'
+class rvm(
+  $ruby_version = '2.2.2-mri',
+) {
 
   exec {'rvm-key':
     command => 'curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -',
@@ -10,7 +11,7 @@ class rvm {
 
   exec {'rvm':
     command => "curl -sSL https://get.rvm.io/ | sudo bash -s stable --ruby=mri-${ruby_version}",
-    unless => 'locate rvm',
+    unless => '[ -f /etc/profile.d/rvm.sh ]',
     timeout => 1800,
     before => Group['rvm']
   }
@@ -18,7 +19,8 @@ class rvm {
   exec {"use-ruby-${ruby_version}":
     # Must be executed in subshell to load rvm as a function
     command => "su -c 'source /etc/profile.d/rvm.sh && rvm use --default ${ruby_version}'",
-    require => Exec['rvm']
+    require => Exec['rvm'],
+    unless  => "su -c 'source /etc/profile.d/rvm.sh && rvm list | grep \"=\\* ruby-${ruby_version}'\"",
   }
 
   group {'rvm':
