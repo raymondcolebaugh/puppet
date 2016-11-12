@@ -1,0 +1,28 @@
+<?php
+// Your DB details
+define('SERVERNAME','<%= @dbhost || 'localhost' %>');
+define('SERVERPORT','3306');
+define('DBUSERNAME','<%= @user || 'socialturn' %>');
+define('DBPASSWORD','<%= @pass %>');
+define('DBNAME','<%= @dbname || 'socialturn' %>');
+define('BASE_URL','http://<%= @host_string || 'localhost' %>/'); // With trailing slash
+// Facebook App
+define('FB_APPID','<%= @fb_appid %>');
+define('FB_APPSECRET','<%= @fb_appsecret %>');
+// Twitter App
+define('TWITTER_APIKEY','<%= @twitter_apikey %>');
+define('TWITTER_APISECRET','<%= @twitter_apisecret %>');
+// Postmarkapp (required to send invitations)
+define('POSTMARKAPP_APIKEY','XXXXXXXXXXXXXXXXX');
+// Twitter App (for suggestions only)
+define('TWITTER_USERNAME','<%= @twitter_username || false %>');
+define('TWITTER_TOKEN','<%= @twitter_token || false %>');
+define('TWITTER_SECRET','<%= @twitter_secret || false %>');
+// Create your own Twitter lists and use them here
+$suggestionLists = array(
+    <% @suggestion_lists.each do |suggestion| -%>
+   '<%= suggestion %>',
+   <% end -%>
+); 
+// Any random value
+define('SERVER_SALT','<%= @server_salt || "CHANGEME" %>');
