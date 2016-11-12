@@ -40,3 +40,4 @@ Debian/Ubuntu. Documentation will be coming soon.
 * [__tugboat__](modules/tugboat/README.md)
 * __vagrant__
 * __virtualbox__
+* __yourls__
