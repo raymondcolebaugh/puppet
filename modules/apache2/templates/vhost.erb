@@ -6,7 +6,7 @@
     DocumentRoot /home/<%= @user -%>/<%= @name %>/public_html
     <Directory /home/<%= @user %>/<%= @name -%>/public_html>
         Options FollowSymLinks
-        AllowOverride None
+        AllowOverride <%= @allow_override || 'None' %>
         Order allow,deny
         allow from all
         Require all granted

@@ -6,7 +6,7 @@ define apache2::vhost(
   $hostname = $title,
   $log_level = 'warn',
   $log_format = 'combined',
-  $allow_override = 'none',
+  $allow_override = 'None',
   $allow_from = 'all'
 ) {
   $config = "/etc/apache2/sites-available/${title}.conf"
