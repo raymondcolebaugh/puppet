@@ -653,7 +653,7 @@ acl CONNECT method CONNECT
 #Recommended minimum configuration:
 #
 # Only allow cachemgr access from localhost
-http_access allow manager localhost
+http_access allow manager <%= @allow_manager || 'localhost' %>
 http_access deny manager
 # Only allow purge requests from localhost
 http_access allow purge localhost
@@ -674,7 +674,7 @@ http_access deny CONNECT !SSL_ports
 # Adapt localnet in the ACL section to list your (internal) IP networks
 # from where browsing should be allowed
 #http_access allow localnet
-http_access allow localhost
+http_access allow <%= @http_allow || 'localhost' %>
 
 # And finally deny all other access to this proxy
 http_access deny all
@@ -1609,6 +1609,9 @@ http_port 3128
 #
 #Default:
 # none
+<% if @peer_type %>
+cache_peer <%= @peer_hostname %> <%= @peer_type || 'parent' %> <%= @peer_proxy_port || 3128 %> <%= @peer_icp_port || 3130 %> <%= $peer_options || 'proxy-only' %>
+<% end %>
 
 #  TAG: cache_peer_domain
 #	Use to limit the domains for which a neighbor cache will be
@@ -1735,7 +1738,7 @@ hierarchy_stoplist cgi-bin ?
 #	objects.
 #
 #Default:
-# cache_mem 8 MB
+cache_mem <%= @cache_mem || 128 %> MB
 
 #  TAG: maximum_object_size_in_memory	(bytes)
 #	Objects greater than this size will not be attempted to kept in
@@ -1744,7 +1747,7 @@ hierarchy_stoplist cgi-bin ?
 #	enough to keep larger objects from hoarding cache_mem.
 #
 #Default:
-# maximum_object_size_in_memory 8 KB
+maximum_object_size_in_memory 8 KB
 
 #  TAG: memory_replacement_policy
 #	The memory replacement policy parameter determines which
@@ -1753,7 +1756,7 @@ hierarchy_stoplist cgi-bin ?
 #	See cache_replacement_policy for details.
 #
 #Default:
-# memory_replacement_policy lru
+memory_replacement_policy <%= @memory_replacement || 'lru' %>
 
 
 # DISK CACHE OPTIONS
@@ -1795,7 +1798,7 @@ hierarchy_stoplist cgi-bin ?
 #	and http://fog.hpl.external.hp.com/techreports/98/HPL-98-173.html.
 #
 #Default:
-# cache_replacement_policy lru
+cache_replacement_policy <%= @cache_replacement || 'lru' %>
 
 #  TAG: cache_dir
 #	Usage:
@@ -1942,7 +1945,7 @@ hierarchy_stoplist cgi-bin ?
 #	(hard coded at 1 MB).
 #
 #Default:
-# cache_dir ufs /var/spool/squid 100 16 256
+cache_dir <%= @fs_type || 'ufs' %> <%= @cache_dir || '/var/spool/squid' %> <%= @cache_size || 100 %> <%= @cache_l1 || 16 %> <%= @cache_l2 || 256 %>
 
 #  TAG: store_dir_select_algorithm
 #	Set this to 'round-robin' as an alternative.
