@@ -15,6 +15,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * [__apache2__](modules/apache2/README.md)
 * __awstats__
 * __composer__
+* __docker__
 * [__ejabberd__](modules/ejabberd/README.md)
 * __fail2ban__
 * [__golang__](modules/golang/README.md)
