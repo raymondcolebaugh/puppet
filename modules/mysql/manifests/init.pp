@@ -14,8 +14,9 @@ class mysql (
       $config = 'my.cnf.debian'
       $fs_name = 'mysql/my.cnf'
       $pkgname = 'mysql-community-server'
+      $deb = 'mysql-apt-config_0.8.2-1_all.deb'
 
-      exec { 'wget https://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb && dpkg -i mysql-apt-config_0.7.3-1_all.deb && apt update':
+      exec {"wget https://dev.mysql.com/get/${deb} && dpkg -i ${deb} && apt update":
         before  => Package['mysql'],
         creates => '/etc/apt/sources.list.d/mysql.list',
       }
