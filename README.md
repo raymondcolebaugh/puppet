@@ -23,6 +23,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __haveged__
 * [__hhvm__](modules/hhvm/README.md)
 * __influxdb__
+* __jenkins__
 * __memcached__
 * [__mysql__](modules/mysql/README.md)
 * __nginx__
