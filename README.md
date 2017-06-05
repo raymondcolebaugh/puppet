@@ -25,6 +25,7 @@ Debian/Ubuntu. Documentation will be coming soon.
 * __influxdb__
 * __jenkins__
 * __memcached__
+* __mongodb__
 * [__mysql__](modules/mysql/README.md)
 * __nginx__
 * __nodejs__
