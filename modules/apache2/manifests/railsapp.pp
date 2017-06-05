@@ -3,6 +3,7 @@ define apache2::railsapp(
   $home = '/home',
   $user = $title,
   $enable_login = true,
+  $dir = false,
 ) {
   case $::operatingsystem {
     debian: {
@@ -17,6 +18,11 @@ define apache2::railsapp(
     $shell = '/bin/bash'
   } else {
     $shell = '/bin/false'
+  }
+  if $dir {
+    $docroot = "/home/${user}/${name}/${dir}/public"
+  } else {
+    $docroot = "/home/${user}/${name}/public"
   }
 
   user {$user:
